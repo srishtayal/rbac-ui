@@ -56,7 +56,7 @@ export default function Permissions() {
         field: 'permissions',
         headerName: 'Permissions',
         width: 200,
-        editable: false,
+        editable: true,
       }
       ,
     {

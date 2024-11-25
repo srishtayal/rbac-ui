@@ -69,7 +69,7 @@ export default function DataGridDemo() {
         field: 'permissions',
         headerName: 'Permissions',
         width: 200,
-        editable: false,
+        editable: true,
       }
       ,
     {
