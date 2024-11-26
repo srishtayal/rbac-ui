@@ -62,9 +62,9 @@ The UI is built with React.js and focuses on functionality, user experience, and
 ### Contact
 
 For any quesries contact:
-Name: Srishti Tayal
-GitHub: github.com/srishtayal
-Email: srishti.tayal.ug23@nsut.ac.in
+ * Name: Srishti Tayal
+ * GitHub: github.com/srishtayal
+ * Email: srishti.tayal.ug23@nsut.ac.in
 ---
 
 ### Key Points:
