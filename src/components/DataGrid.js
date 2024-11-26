@@ -2,30 +2,57 @@ import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import Button from '@mui/material/Button';
+import AddIcon from '@mui/icons-material/Add';
+import { TextField, Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material';
+
 
 export default function DataGridDemo() {
   const [rows, setRows] = useState([
-    { id: 1, firstName: 'Jon', lastName: 'Snow', age: 14, role: 'User', permissions: ['Read'], status:'Active' },
-    { id: 2, firstName: 'Cersei', lastName: 'Lannister', age: 31, role: 'Admin', permissions: ['Read', 'Write', 'Delete'], status:'Active' },
-    { id: 3, firstName: 'Arya', lastName: 'Stark', age: 11, role: 'Editor', permissions: ['Read', 'Write'], status:'Inctive' },
-    { id: 4, firstName: 'Daenerys', lastName: 'Targaryen', age: 25, permissions: ['Read', 'Write', 'Delete'], status:'Active' },
-  { id: 5, firstName: 'Tyrion', lastName: 'Lannister', age: 35, permissions: ['Read', 'Write'] },
-  { id: 6, firstName: 'Sansa', lastName: 'Stark', age: 22, permissions: ['Read'], status:'Active' },
-  { id: 7, firstName: 'Bran', lastName: 'Stark', age: 17, permissions: ['Write'], status:'Inctive' },
-  { id: 8, firstName: 'Joffrey', lastName: 'Baratheon', age: 20, permissions: [], status:'Active' },
-  { id: 9, firstName: 'Robb', lastName: 'Stark', age: 25, permissions: ['Write'], status:'Active' },
-  { id: 10, firstName: 'Jaime', lastName: 'Lannister', age: 42, permissions: ['Delete'], status:'Active' },
-  { id: 11, firstName: 'Samwell', lastName: 'Tarly', age: 29, permissions: ['Read', 'Write', 'Delete'], status:'Active' },
-  { id: 12, firstName: 'Gendry', lastName: 'Baratheon', age: 24, permissions: ['Read'], status:'Active' },
-  { id: 13, firstName: 'Podrick', lastName: 'Payne', age: 21, permissions: ['Write', 'Read'], status:'Active' },
-  { id: 14, firstName: 'Varys', lastName: 'Targaryen', age: 45, permissions: ['Read', 'Write'], status:'Inctive' },
-  { id: 15, firstName: 'Missandei', lastName: 'Naath', age: 27, permissions: ['Read', 'Write'], status:'Active' },
-  { id: 16, firstName: 'Theon', lastName: 'Greyjoy', age: 30, permissions: ['Read', 'Write'], status:'Active' },
-  { id: 17, firstName: 'Yara', lastName: 'Greyjoy', age: 28, permissions: ['Delete'], status:'Active' },
-  { id: 18, firstName: 'Tormund', lastName: 'Giantsbane', age: 34, permissions: ['Read', 'Write'], status:'Inctive' },
-  { id: 19, firstName: 'Jorah', lastName: 'Mormont', age: 40, permissions: ['Read', 'Write'] , status:'Active' },
-  { id: 20, firstName: 'Brienne', lastName: 'Tarth', age: 35, permissions: ['Write', 'Delete'], status:'Active' }
+  { id: 1, firstName: 'Jon', lastName: 'Snow', age: 14, role: 'User', permissions: ['Read'], status: 'Active' },
+  { id: 2, firstName: 'Cersei', lastName: 'Lannister', age: 31, role: 'Admin', permissions: ['Read', 'Write', 'Delete'], status: 'Active' },
+  { id: 3, firstName: 'Arya', lastName: 'Stark', age: 11, role: 'Editor', permissions: ['Read', 'Write'], status: 'Active' },
+  { id: 4, firstName: 'Daenerys', lastName: 'Targaryen', age: 25,role: 'Editor', permissions: ['Read', 'Write', 'Delete'], status: 'Active' },
+  { id: 5, firstName: 'Tyrion', lastName: 'Lannister', age: 35, role: 'Editor', permissions: ['Read', 'Write'], status: 'Active' },
+  { id: 6, firstName: 'Sansa', lastName: 'Stark', age: 22, role: 'Viewer', permissions: ['Read'], status: 'Inactive' },
+  { id: 7, firstName: 'Bran', lastName: 'Stark', age: 17,role: 'Editor', permissions: ['Write'], status: 'Active' },
+  { id: 8, firstName: 'Joffrey', lastName: 'Baratheon', age: 20,role: 'Viewer', permissions: [], status: 'Inactive' },
+  { id: 9, firstName: 'Robb', lastName: 'Stark', age: 25,role: 'Editor', permissions: ['Write'], status: 'Active' },
+  { id: 10, firstName: 'Jaime', lastName: 'Lannister', age: 42,role: 'Editor', permissions: ['Delete'], status: 'Active' },
+  { id: 11, firstName: 'Samwell', lastName: 'Tarly', age: 29,role: 'Editor', permissions: ['Read', 'Write', 'Delete'], status: 'Active' },
+  { id: 12, firstName: 'Gendry', lastName: 'Baratheon', age: 24, role: 'Viewer', permissions: ['Read'], status: 'Active' },
+  { id: 13, firstName: 'Podrick', lastName: 'Payne', age: 21, role: 'Editor', permissions: ['Write', 'Read'], status: 'Inactive' },
+  { id: 14, firstName: 'Varys', lastName: 'Targaryen', age: 45, role: 'Editor', permissions: ['Read', 'Write'], status: 'Active' },
+  { id: 15, firstName: 'Missandei', lastName: 'Naath', age: 27, role: 'Editor', permissions: ['Read', 'Write'], status: 'Active' }
   ]);
+ 
+
+  const [open, setOpen] = useState(false);
+  const [newUser, setNewUser] = useState({
+    id: rows.length + 1,
+    firstName: '',
+    lastName: '',
+    age: '',
+    role: '',
+    permissions: [],
+    status: 'Active',
+  });
+
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setNewUser((prev) => ({
+      ...prev,
+      [name]: name === 'permissions' ? value.split(',') : value, // Handle permissions as an array
+    }));
+  };
+
+  const handleAddUser = () => {
+    setRows((prevRows) => [...prevRows, { ...newUser, id: rows.length + 1 }]);
+    setNewUser({ id: rows.length + 2, firstName: '', lastName: '', age: '', role: '', permissions: [], status: 'Active' });
+    handleClose();
+  };
 
   const handleEdit = (id) => {
     alert(`Editing user with ID: ${id}`);
@@ -70,6 +97,12 @@ export default function DataGridDemo() {
         width: 150,
         editable: true,
       },
+      {
+        field: 'status',
+        headerName: 'Status',
+        width: 200,
+        editable: true,
+      },
     {
       field: 'actions',
       headerName: 'Actions',
@@ -97,23 +130,24 @@ export default function DataGridDemo() {
         </>
       ),
     },
-    {
-        field: 'status',
-        headerName: 'Status',
-        width: 200,
-        editable: true,
-      }
+    
   ];
 
   return (
-    <Box sx={{ height: '100%', width: '100%' }}>
+    <Box sx={{ height: '90%', width: '100%' }}>
+      <Box display="flex" justifyContent="space-between" alignItems="center" mb={2}>
+        <h2>User Management</h2>
+        <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={handleOpen}>
+          Add User
+        </Button>
+      </Box>
       <DataGrid
         rows={rows}
         columns={columns}
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 5,
+              pageSize: 20,
             },
           },
         }}
@@ -121,6 +155,61 @@ export default function DataGridDemo() {
         checkboxSelection
         disableRowSelectionOnClick
       />
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Add New User</DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            label="First Name"
+            name="firstName"
+            fullWidth
+            value={newUser.firstName}
+            onChange={handleChange}
+          />
+          <TextField
+            margin="dense"
+            label="Last Name"
+            name="lastName"
+            fullWidth
+            value={newUser.lastName}
+            onChange={handleChange}
+          />
+          <TextField
+            margin="dense"
+            label="Age"
+            name="age"
+            type="number"
+            fullWidth
+            value={newUser.age}
+            onChange={handleChange}
+          />
+          <TextField
+            margin="dense"
+            label="Role"
+            name="role"
+            fullWidth
+            value={newUser.role}
+            onChange={handleChange}
+          />
+          <TextField
+            margin="dense"
+            label="Permissions (comma-separated)"
+            name="permissions"
+            fullWidth
+            value={newUser.permissions.join(',')}
+            onChange={handleChange}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="secondary">
+            Cancel
+          </Button>
+          <Button onClick={handleAddUser} color="primary">
+            Add
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

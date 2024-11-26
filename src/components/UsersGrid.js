@@ -19,17 +19,11 @@ export default function UsersGrid() {
   { id: 12, firstName: 'Gendry', lastName: 'Baratheon', age: 24, permissions: ['Read'] },
   { id: 13, firstName: 'Podrick', lastName: 'Payne', age: 21, permissions: ['Write', 'Read'] },
   { id: 14, firstName: 'Varys', lastName: 'Targaryen', age: 45, permissions: ['Read', 'Write'] },
-  { id: 15, firstName: 'Missandei', lastName: 'Naath', age: 27, permissions: ['Read', 'Write'] },
-  { id: 16, firstName: 'Theon', lastName: 'Greyjoy', age: 30, permissions: ['Read', 'Write'] },
-  { id: 17, firstName: 'Yara', lastName: 'Greyjoy', age: 28, permissions: ['Delete'] },
-  { id: 18, firstName: 'Tormund', lastName: 'Giantsbane', age: 34, permissions: ['Read', 'Write'] },
-  { id: 19, firstName: 'Jorah', lastName: 'Mormont', age: 40, permissions: ['Read', 'Write'] },
-  { id: 20, firstName: 'Brienne', lastName: 'Tarth', age: 35, permissions: ['Write', 'Delete'] }
+  { id: 15, firstName: 'Missandei', lastName: 'Naath', age: 27, permissions: ['Read', 'Write'] }
   ]);
 
   const handleEdit = (id) => {
     alert(`Editing user with ID: ${id}`);
-    // Implement the logic to edit the user here.
   };
 
   const handleDelete = (id) => {
@@ -97,7 +91,7 @@ export default function UsersGrid() {
         initialState={{
           pagination: {
             paginationModel: {
-              pageSize: 5,
+              pageSize: 20,
             },
           },
         }}
